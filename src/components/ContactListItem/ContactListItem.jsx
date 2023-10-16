@@ -1,9 +1,12 @@
-import { StyledContactListItem, StyledDeleteButton } from './ContactListItem.styled';
+import {
+  StyledContactListItem,
+  StyledDeleteButton,
+} from './ContactListItem.styled';
 
 export const ContactListItem = ({ contact, handleDelete }) => {
   return (
     <StyledContactListItem>
-      {contact.name}: {contact.number}
+      {contact.name}: {contact.phone}
       <StyledDeleteButton type="button" onClick={handleDelete}>
         Delete
       </StyledDeleteButton>

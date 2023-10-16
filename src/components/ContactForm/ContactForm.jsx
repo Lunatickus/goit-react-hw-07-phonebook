@@ -7,6 +7,10 @@ import {
   StyledErrorText,
   StyledInput,
 } from './ContactForm.styled';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectContacts } from 'redux/selectors';
+import { addContact } from 'redux/contactOperations';
+
 
 const schema = yup.object().shape({
   name: yup
@@ -16,7 +20,7 @@ const schema = yup.object().shape({
       "Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
     )
     .required(),
-  number: yup
+  phone: yup
     .string()
     .matches(
       /^\+?\d{1,4}[-.\s]?\(?\d{1,3}\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/,
@@ -34,10 +38,23 @@ const FormError = ({ name }) => {
   );
 };
 
-export const ContactForm = ({ handleSubmit }) => {
+export const ContactForm = () => {
+  const contacts = useSelector(selectContacts);
+  const dispatch = useDispatch();
+
+  const handleSubmit = (contact, { resetForm }) => {
+    if (contacts.some(c => contact.name === c.name)) {
+      alert(`${contact.name} is already in contacts.`);
+      return;
+    }
+
+    dispatch(addContact(contact));
+    resetForm();
+  };
+
   return (
     <Formik
-      initialValues={{ name: '', number: '' }}
+      initialValues={{ name: '', phone: '' }}
       onSubmit={handleSubmit}
       validationSchema={schema}
     >
@@ -50,8 +67,8 @@ export const ContactForm = ({ handleSubmit }) => {
 
         <StyledFromLabel>
           <span>Number</span>
-          <StyledInput type="tel" name="number" />
-          <FormError name="number" />
+          <StyledInput type="tel" name="phone" />
+          <FormError name="phone" />
         </StyledFromLabel>
 
         <StyledFormButton type="submit">Add contact</StyledFormButton>
