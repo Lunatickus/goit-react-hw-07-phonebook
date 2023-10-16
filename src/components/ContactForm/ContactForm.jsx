@@ -20,7 +20,7 @@ const schema = yup.object().shape({
       "Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
     )
     .required(),
-  phone: yup
+    number: yup
     .string()
     .matches(
       /^\+?\d{1,4}[-.\s]?\(?\d{1,3}\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/,
@@ -54,7 +54,7 @@ export const ContactForm = () => {
 
   return (
     <Formik
-      initialValues={{ name: '', phone: '' }}
+      initialValues={{ name: '', number: '' }}
       onSubmit={handleSubmit}
       validationSchema={schema}
     >
@@ -67,8 +67,8 @@ export const ContactForm = () => {
 
         <StyledFromLabel>
           <span>Number</span>
-          <StyledInput type="tel" name="phone" />
-          <FormError name="phone" />
+          <StyledInput type="tel" name="number" />
+          <FormError name="number" />
         </StyledFromLabel>
 
         <StyledFormButton type="submit">Add contact</StyledFormButton>
